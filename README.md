@@ -4,3 +4,7 @@ in article "Stochastic modeling of the mRNA life process: A generalized master e
 
 ## Directories
 #### FSP_distribution.jl
+
+#### delay_distribution.jl
+
+#### delay_distribution.jl
