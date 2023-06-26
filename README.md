@@ -3,4 +3,4 @@ Code and data for analysis and inference for  general non-Markovian model of the
 in article "Stochastic modeling of the mRNA life process: A generalized master equation" .
 
 ## Directories
-### FSP_distribution.jl
+#### FSP_distribution.jl
