@@ -4,7 +4,11 @@ in article "Stochastic modeling of the mRNA life process: A generalized master e
 
 ## Directories
 #### FSP_distribution.jl
-
+Solving the generalized master equation using Finite State Projection (FSP) method.
 #### delay_distribution.jl
+Survival factor H(t) in the generalized master equation. 
+#### noise.jl
+Calculating the moments (including mean and variance) of mRNA number at steady state.
+#### inference_function_GAL10.jl
+Function for inferring transcriptional parameters from nascent mRNA distribution
 
-#### delay_distribution.jl
