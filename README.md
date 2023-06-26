@@ -11,4 +11,6 @@ Survival factor H(t) in the generalized master equation.
 Calculating the moments (including mean and variance) of mRNA number at steady state.
 #### inference_function_GAL10.jl
 Function for inferring transcriptional parameters from nascent mRNA distribution
+#### generating_data.jl
+Stochastic simulation for the non-Markovian model
 
