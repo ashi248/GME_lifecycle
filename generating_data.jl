@@ -30,6 +30,6 @@ function generate_data_mature(kon=0.5,koff=0.5,ρ=40,r=1,α=1,mu=1)
 
     djprob = DelayJumpProblem(dprob, DelayRejection(), jumpset, delayjumpset,
      de_chan0, save_positions=(true,true))
-    sol1 = solve(djprob, SSAStepper())
+    sol1 = solve(djprob, DelaySSAToolkit.SSAStepper())
     return(sol1)
 end

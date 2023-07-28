@@ -1,21 +1,3 @@
-include("delay_function.jl")
-include("FSP_distribution.jl")
-
-
-k0=0.5;k1=0.5;λ1 = 40;λ2 = 0;
-L=0.1; t0=2;r=1
-H = delay_mature_gamma;
-prob = mature_mRNA_distribution(H,L,t0,r,k0,k1,λ1,λ2)
-N = length(prob)-1
-bins = collect(0:N)
-
-p0 = k0/(k1+k0)
-
-plot!(bins, prob,linewidth=5, size = (500,400),xlims = [0,60],
-dpi=600, legend = :none,grid=0,
-framestyle=:box,labelfontsize=14,tickfontsize = 12,)
-xlabel!("mature mRNA#"); ylabel!("Probability")
-
 
 ##
 using DelaySSAToolkit
@@ -60,8 +42,8 @@ function generate_data_mature(kon=0.5,koff=0.5,ρ=40,r=1,α=1,mu=1)
 end
 
 
-kon = 0.5; koff = 0.7; rou = 40;
-alpha0 = 0.1; mu = 2;r = 1;
+kon = 0.5; koff = 0.8; rou = 40;
+alpha0 = 5; mu = 2;r = 1;
 N = 50000
 mRNA_mature= zeros(N)
 jsol = generate_data_mature(kon,koff,rou,r,alpha0,mu)
@@ -79,5 +61,30 @@ promoter_itp = Interpolations.interpolate(nodes,promoter, Gridded(Constant{Previ
 mRNA_expr = mRNA_itp(tt)
 promoter_expr = promoter_itp(tt)
 
-mRNA_prob = proportionmap(mRNA_expr[promoter_expr.==1])
-scatter!(mRNA_prob,shape = [:circle],markersize=8)
+mRNA_prob = proportionmap(mRNA_expr[promoter_expr.==0])
+scatter(mRNA_prob,shape = [:circle],markersize=8)
+
+
+
+
+##
+
+##
+
+include("delay_function.jl")
+include("FSP_distribution.jl")
+
+
+k0=0.5;k1=0.8;λ1 = 40;λ2 = 0;
+L=5; t0=2;r=1
+H = delay_mature_gamma;
+prob = mature_mRNA_distribution(H,L,t0,r,k0,k1,λ1,λ2)
+N = length(prob)-1
+bins = collect(0:N)
+
+p0 = k0/(k1+k0)
+
+plot!(bins, prob,linewidth=5, size = (500,400),xlims = [0,60],
+dpi=600, legend = :none,grid=0,
+framestyle=:box,labelfontsize=14,tickfontsize = 12,)
+xlabel!("mature mRNA#"); ylabel!("Probability")

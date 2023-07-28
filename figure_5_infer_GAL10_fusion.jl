@@ -110,8 +110,10 @@ plot(
       globalmode = true,
       marginalmode = false,
       nbins = 50,
-      size = (900,600),
+      grid=0,
+      size = (800,600),
       labelfontsize=12,
+      tickfontsize = 8,
       dpi=600,
       vsel_label = ["log α","log λ1","log k0","log k1"]
 )
@@ -125,8 +127,8 @@ include("inference_function_GAL10.jl")
 function compare_plot(data,param)
       data = fusion(data)
       histogram(data,bins=0:70,normalize=:probability,
-      color = "skyblue",labels="Data",labelfontsize=14,dpi=600,legendfontsize = 10,
-      tickfontsize = 10,grid=0,size = (500,400))
+      color = "skyblue",labels="Data",labelfontsize=14,dpi=600,legendfontsize = 12,
+      tickfontsize = 12,grid=0,size = (500,400))
 
       NT = Int(ceil(maximum(data)) + 1)
       filter1 = hcat(convolve_uniform([862, 2200], NT+2; Δ=0.01)...)
@@ -238,11 +240,14 @@ plot(
       globalmode = true,
       marginalmode = false,
       nbins = 50,
-      size = (900,600),
+      grid=0,
+      size = (800,600),
       labelfontsize=12,
+      tickfontsize = 8,
       dpi=600,
       vsel_label = ["log α","log λ1","log k0","log k1"]
 )
+
 
 Plots.savefig("figure0/GAL10_post_distribution_data5.png")
 
@@ -256,8 +261,8 @@ function compare_plot_G2(data,param)
       filter1 = hcat(convolve_uniform([862, 2200], NT+2; Δ=0.01)...)
 
       histogram(data,bins=0:70,normalize=:probability,
-      color = "skyblue",labels="Data",labelfontsize=14,dpi=600,legendfontsize = 10,
-      tickfontsize = 10,grid=0,size = (500,400))
+      color = "skyblue",labels="Data",labelfontsize=14,dpi=600,legendfontsize = 12,
+      tickfontsize = 12,grid=0,size = (500,400))
 
       param_log = log.(param)
       param0 = (α=param_log[1], λ1=param_log[2], k0=param_log[3], k1=param_log[4])
@@ -306,8 +311,8 @@ fon2 = param_G2[3,:]./(param_G2[3,:] + param_G2[4,:])
 burst2 = param_G2[2,:]./param_G2[4,:]
 result2 = hcat(param_G2',[burst2 fon2])
 
-M1= [mean(result1[:,i]) for i in 1:4]
-S1 = [std(result1[:,i]) for i in 1:4]
+M1= [mean(result1[:,i]) for i in 1:6]
+S1 = [std(result1[:,i]) for i in 1:6]
 
 
 M2 = [mean(result2[:,i]) for i in 1:6]

@@ -1,14 +1,14 @@
-using  LinearAlgebra
+using LinearAlgebra
 using BAT, DensityInterface, IntervalSets
 using ValueShapes
 using JLD2
 using Plots
 using Interpolations
-using DelaySSAToolkit
 using Random, Distributions
 using StatsBase
 include("generating_data.jl")
 include("inference_function.jl")
+
 
 ## generate data
 function generating_data(N)
@@ -25,10 +25,11 @@ function generating_data(N)
       end
      return(nasRNA)
 end
+data0 = generating_data(3000)
 
-function inference_bayes(N)
+function inference_bayes(data0,N)
       # bayesian inference
-      data = generating_data(N)
+      data = data0[1:N]
       likelihood = let d = data, f = fit_function
             logfuncdensity(function(params)
                   NT = Int(maximum(d))
@@ -55,9 +56,9 @@ function inference_bayes(N)
       return(samples)
 end
 
-sample1000 = inference_bayes(1000)
-sample2000 = inference_bayes(2000)
-sample3000 = inference_bayes(3000)
+sample1000 = inference_bayes(data0,1000)
+sample2000 = inference_bayes(data0,2000)
+sample3000 = inference_bayes(data0,3000)
 
 
 plot(
@@ -94,10 +95,6 @@ flat_v = BAT.flatview(unshaped.(sample3000).v)
 flat_logd = BAT.flatview(unshaped.(sample3000).logd)
 result_3000 = convert(Matrix, hcat(transpose(flat_v), flat_logd))
 
-flat_v = BAT.flatview(unshaped.(sample4000).v)
-flat_logd = BAT.flatview(unshaped.(sample4000).logd)
-result_4000 = convert(Matrix, hcat(transpose(flat_v), flat_logd))
-
 
 
 using StatsPlots
@@ -120,16 +117,18 @@ vline!([log(20)], lw = 5,color=:black,label = "True value")
 plot!(xlabel = "Log(λ1)", ylabel = "Posterior density", grid=0,framestyle=:box,
 dpi=600,legendfontsize = 12,tickfontsize = 12,xlims = [2.92,3.05],
 labelfontsize=14,size = (500,400),legend = :topleft)
+
 Plots.savefig("figure0/post_distribution_lambda.png")
 
 
 density(result_1000[:, 3], lw = 4,legend = :topleft,label = "M=1000")
 density!(result_2000[:, 3], lw = 4,legend = :topleft,label = "M=2000")
 density!(result_3000[:, 3], lw = 4,legend = :topleft,label = "M=3000")
+
 vline!([log(1)], lw = 5,color=:black,label = "True value")
 
 plot!(xlabel = "Log(k0)", ylabel = "Posterior density", grid=0,framestyle=:box,
-xlims = [-0.4,0.4],ylims = [0,5],dpi=600,legendfontsize = 12,tickfontsize = 12,
+xlims = [-0.4,0.4],ylims = [0,6],dpi=600,legendfontsize = 12,tickfontsize = 12,
 labelfontsize=14,size = (500,400),legend = :topleft)
 
 Plots.savefig("figure0/post_distribution_k0.png")
@@ -141,7 +140,7 @@ density!(result_3000[:, 4], lw = 4,legend = :topleft,label = "M=3000")
 vline!([log(0.5)], lw = 5,color=:black,label = "True value")
 
 plot!(xlabel = "Log(k1)", ylabel = "Posterior density", grid=0,framestyle=:box,
-xlims = [-1.5,-0.1],ylims = [0,4],dpi=600,legendfontsize = 12,tickfontsize = 12,
+xlims = [-1.5,-0.1],ylims = [0,4.5],dpi=600,legendfontsize = 12,tickfontsize = 12,
 labelfontsize=14,size = (500,400),legend = :topleft)
 
 Plots.savefig("figure0/post_distribution_k1.png")

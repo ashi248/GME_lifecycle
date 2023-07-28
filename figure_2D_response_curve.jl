@@ -12,10 +12,10 @@ function model_2state_noise(du,u,p,t,H)
      λ1 = p[1][1];λ2 = p[1][2];k0 = p[1][3];k1 = p[1][4];
      p2 = p[2] # α and θ
      SS = H(t,p2)[1];
-     du[1] = λ1*SS*k0/(k0+k1)+k0*u[2]-k1*u[1];
-     du[2] = λ2*SS*k1/(k0+k1)+k1*u[1]-k0*u[2];
-     du[3] = 2*λ1*SS*u[1]+k0*u[4]-k1*u[3];
-     du[4] = 2*λ2*SS*u[2]+k1*u[3]-k0*u[4];
+     du[1] = λ1*SS+k1*u[2]-k1*u[1];
+     du[2] = λ2*SS+k0*u[1]-k0*u[2];
+     du[3] = 2*λ1*SS*u[1]+k1*u[4]-k1*u[3];
+     du[4] = 2*λ2*SS*u[2]+k0*u[3]-k0*u[4];
 end
 
 function gamma_distribution_noise_time(saveat,H,p1,p2)
@@ -23,7 +23,7 @@ function gamma_distribution_noise_time(saveat,H,p1,p2)
       p = [p1,p2]
       model(du,u,p,t) = model_2state_noise(du,u,p,t,H)
 
-      u0 = [0;1;0;0]
+      u0 = [0;0;0;0]
       tspan = (0.0,200.0);
       saveat = saveat
       moments = ODEProblem(model, u0, tspan,p);
@@ -33,8 +33,8 @@ function gamma_distribution_noise_time(saveat,H,p1,p2)
       Var = zeros(length(saveat))
 
       for i in 1:length(saveat)
-            Mean[i] = sol[1,i] + sol[2,i]
-            Var[i] = sol[3,i] + sol[4,i] + Mean[i] - Mean[i]^2
+            Mean[i] = sol[1,i]
+            Var[i] = sol[3,i]  + Mean[i] - Mean[i]^2
       end
 
       return([Mean,Var])

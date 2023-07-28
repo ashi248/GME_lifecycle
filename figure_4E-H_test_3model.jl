@@ -57,6 +57,7 @@ using Interpolations
 using DataFrames
 using JLD2
 
+M0 = 300
 include("inference_function.jl")
 mRNA_nas,Parameter = load_object("data/test_data_3model.jld2")
 
@@ -156,6 +157,7 @@ boxplot(repeat(["Model I","Model II","Model III"],inner=300),mre,
 label = "",color = :yellow,linewidth=2)
 plot!(ylabel = "Relative error", grid=0,framestyle=:box,dpi=600,tickfontsize = 14,
 labelfontsize=14,size = (500,400),yscale = :log)
+
 Plots.savefig("figure0/model_comparison_rou.png")
 
 using StatsPlots
@@ -164,6 +166,7 @@ boxplot(repeat(["Model I","Model II","Model III"],inner=300),mre,
 label = "",color = :yellow,linewidth=2)
 plot!(ylabel = "Relative error", grid=0,framestyle=:box,dpi=600,tickfontsize = 14,
 labelfontsize=14,size = (500,400),yscale = :log)
+
 Plots.savefig("figure0/model_comparison_kon.png")
 
 using StatsPlots
@@ -172,6 +175,7 @@ boxplot(repeat(["Model I","Model II","Model III"],inner=300),mre,
 label = "",color = :yellow,linewidth=2)
 plot!(ylabel = "Relative error", grid=0,framestyle=:box,dpi=600,tickfontsize = 14,
 labelfontsize=14,size = (500,400),yscale = :log)
+
 Plots.savefig("figure0/model_comparison_koff.png")
 
 
@@ -181,6 +185,7 @@ boxplot(repeat(["Model I","Model II","Model III"],inner=300),mre,
 label = "",color = :yellow,linewidth=2)
 plot!(ylabel = "Mean relative error", grid=0,framestyle=:box,dpi=600,tickfontsize = 14,
 labelfontsize=14,size = (500,400),yscale = :log)
+
 Plots.savefig("figure0/model_comparison_MRE.png")
 
 ##

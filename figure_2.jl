@@ -16,6 +16,8 @@ H = delay_nascent_gamma
 Mean,Var = gamma_distribution_noise(H,p1,p2)
 noise0 = Var/Mean^2
 
+
+
 # heatmap of noise
 noise= exp.(collect(range(log(0.1),log(20),100)))
 LL = 1 ./ noise
@@ -39,6 +41,8 @@ for i in 1:length(LL)
           ratio[i,j] = noise1/noise0
       end
 end
+
+
 
 noise= exp.(collect(range(log(0.1),log(20),100)))
 LL = 1 ./ noise
@@ -137,59 +141,9 @@ Plots.savefig("figure0/heat_noise_mature.png")
 #Figure 2
 # (B)(C)(D)
 include("FSP_distribution.jl")
-# figure 2D
-k0=0.5;k1=0.5;λ1 = 40;λ2 = 0;
-L = 0.1; t0=2;r=1
-H = delay_mature_gamma;
-prob = mature_mRNA_distribution(H,L,t0,r,k0,k1,λ1,λ2)
-N = length(prob)-1
-bins = collect(0:N)
-
-
-plot(bins, prob,linewidth=5,label = "L=0.1", size = (500,400),
-xlims = [0,60],dpi=600, legend = :none,
-grid=0,fillrange = 0, fillalpha = 0.25,
-framestyle=:box,labelfontsize=14,tickfontsize = 12,)
-xlabel!("Cytoplasmic mRNA#"); ylabel!("Probability")
-
-
-Plots.savefig("figure0/distribution_type3.png")
-
-# figure 2C
-k0=0.5;k1=0.5;λ1 = 40;λ2 = 0;
-L = 10; t0=2;r=1
-H = delay_mature_gamma;
-prob = mature_mRNA_distribution(H,L,t0,r,k0,k1,λ1,λ2)
-N = length(prob)-1
-bins = collect(0:N);
-
-plot(bins, prob,linewidth=5,label = "L=0.1", size = (500,400),
-xlims = [0,60],ylims = [0,0.06],dpi=600, legend = :none,
-grid=0,fillrange = 0, fillalpha = 0.25,
-framestyle=:box,labelfontsize=14,tickfontsize = 12,)
-xlabel!("Cytoplasmic mRNA#"); ylabel!("Probability")
-
-Plots.savefig("figure0/distribution_type1.png")
-
-# figure 2B
-k0=0.5;k1=0.5;λ1 = 40;λ2 = 0;
-L = 1; t0=2;r=1
-H = delay_mature_gamma;
-prob = gamma_distribution(H,L,t0,r,k0,k1,λ1,λ2)
-N = length(prob)-1
-bins = collect(0:N);
-
-plot(bins, prob,linewidth=5,label = "L=0.1", size = (500,400),
-xlims = [0,60],ylims = [0,0.03],dpi=600, legend = :none,
-grid=0,fillrange = 0, fillalpha = 0.25,
-framestyle=:box,labelfontsize=14,tickfontsize = 12,)
-xlabel!("Cytoplasmic mRNA#"); ylabel!("Probability")
-
-Plots.savefig("figure0/distribution_type2.png")
 
 ##
-
-function mature_mRNA_distribution(H,L=1,t0=1,r=1,k0=0.5,k1=0.5,λ1 = 40,λ2 = 0,time = 400)
+function mature_mRNA_distribution(H,L=1,t0=1,r=1,k0=0.5,k1=0.5,λ1 = 40,λ2 = 0,time = 800)
       #L=1;t0=1;k0=0.5;k1=0.5;λ1 = 40;λ2 = 0;
       α = L; θ = t0/L; r = r;
       N = 100;
@@ -198,7 +152,7 @@ function mature_mRNA_distribution(H,L=1,t0=1,r=1,k0=0.5,k1=0.5,λ1 = 40,λ2 = 0,
       p3 = N
       p = [p1,p2,p3]
 
-      tspan = (0.0,400.0);
+      tspan = (0.0,800.0);
       saveat = [time]
       model(du,u,p,t) = model_2state(du,u,p,t,H)
       probs = FSP_distr(model,p,tspan,saveat)
@@ -238,7 +192,6 @@ Plots.savefig("figure0/figure_S1.png")
 ##
 
 function lognormal_distribution(μ=2,σ=1)
-
       α = 1; θ = 2/α;
       k0=0.2;k1=0.2;λ1 = 40;λ2 = 0
       N = 100;

@@ -81,7 +81,6 @@ end
 
 
 ##  delay function for gamma distribution
-
 function delay_nascent_gamma(x,p)
     α = p[1]
     θ = p[2]
@@ -116,7 +115,6 @@ function delay_mature_gamma(t,p)
       return(h0[1])
 end
 
-
 function delay_mature_total(t,p)
       α1 = p[1]
       θ1 = p[2]
@@ -130,7 +128,6 @@ function delay_mature_total(t,p)
       end
       return(h0[1])
 end
-
 
 function delay_mature_total_log(t,p)
       μ = p[1]
